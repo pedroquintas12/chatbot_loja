@@ -1,0 +1,104 @@
+{
+    "intents": [
+      {
+        "tag": "listar_produtos",
+        "patterns": [
+          "quais produtos vocês têm?",
+          "tem algo a venda?",
+          "o que vocês vendem?",
+          "produtos disponíveis",
+          "quero ver os produtos"
+        ],
+        "responses": ["Chamando lista de produtos..."]
+      },
+      {
+        "tag": "recomendar_produto",
+        "patterns": [
+          "tem notebook?",
+          "me fala sobre o celular",
+          "quero detalhes do fone",
+          "me mostre o mouse gamer",
+          "me mostra o teclado"
+        ],
+        "responses": ["Buscando informações sobre o produto..."]
+      },
+      {
+        "tag": "saudacao",
+        "patterns": ["Ola", "Oi", "Bom dia", "Boa tarde"],
+        "responses": ["Olá! Bem-vindo à TechStore! Como posso ajudar você hoje? Digite 'ajuda' para ver as opções."]
+      },
+      {
+        "tag": "produto_info",
+        "patterns": ["Quais notebooks vocês têm?", "Tem smartphone?", "Me fale dos fones de ouvido"],
+        "responses": ["Temos diversas opções de notebooks, smartphones e fones! Alguma preferência de marca ou modelo?"]
+      },
+      {
+        "tag": "recomendacao",
+        "patterns": ["Me recomende algo", "Sugestão de produto", "O que você indica?"],
+        "responses": ["Recomendo o Notebook Gamer X com ótimo custo-benefício! Deseja mais detalhes?"]
+      },
+      {
+        "tag": "despedida",
+        "patterns": ["Tchau", "Até mais", "Obrigado"],
+        "responses": ["Até mais! Qualquer coisa, é só chamar. 😄"]
+      },
+      {
+        "tag": "ajuda",
+        "patterns": ["Ajuda", "O que você pode fazer?", "Me ajude"],
+        "responses": ["Posso ajudar com informações sobre produtos, recomendações e tirar dúvidas. O que você precisa? diga 'produtos disponíveis' para ver as opções."]
+      },
+
+      {
+        "tag": "localizacao",
+        "patterns": ["Onde vocês estão?", "Qual o endereço da loja?", "Como chego na TechStore?", "como consigo ir?"],
+        "responses": ["Estamos localizados na Rua das Tecnologias, 123. Venha nos visitar!"]
+      },
+      {
+        "tag": "garantia",
+        "patterns": ["Qual a garantia dos produtos?", "Vocês oferecem garantia?", "Como funciona a garantia?"],
+        "responses": ["Todos os produtos têm garantia de 1 ano. Mais alguma dúvida?"]
+      },
+      {
+        "tag": "suporte",
+        "patterns": ["Preciso de suporte", "Ajuda com meu produto", "Problema com o notebook"],
+        "responses": ["Claro! Descreva seu problema e vamos resolver juntos."]
+      },
+      {
+        "tag": "pagamento",
+        "patterns": ["Quais formas de pagamento?", "Aceitam cartão?", "Como posso pagar?"],
+        "responses": ["Aceitamos cartões de crédito, débito e pagamentos em dinheiro. Qual a sua preferência?"]
+      },
+      {
+        "tag": "forma_pagamento",
+        "patterns": ["aceita pix", "aceita cartão", "aceita cheque", "aceita dinheiro", "aceita boleto"],
+        "responses": ["Sim, aceitamos essa forma de pagamento."]
+      },
+      {
+        "tag": "entrega",
+        "patterns": ["Como funciona a entrega?", "Vocês entregam?", "Qual o prazo de entrega?"],
+        "responses": ["Fazemos entregas em até 5 dias úteis. Você gostaria de saber mais sobre isso?"]
+      },
+      {
+        "tag": "promocao",
+        "patterns": ["Tem promoção?", "Descontos disponíveis", "Ofertas atuais"],
+        "responses": ["Atualmente temos 10% de desconto em todos os notebooks! Aproveite!"]
+      },
+      {
+        "tag": "contato",
+        "patterns": ["Como posso entrar em contato?", "Telefone da loja", "E-mail para suporte"],
+        "responses": ["Você pode nos contatar pelo telefone (11) 1234-5678 ou pelo e-mail"]
+      },
+      {
+        "tag": "feedback",
+        "patterns": ["Gostei do atendimento", "Muito bom o serviço", "Recomendo a loja"],
+        "responses": ["Ficamos felizes em saber! Seu feedback é muito importante para nós."]
+      },
+      {
+        "tag": "erro",
+        "patterns": ["Não entendi", "Você pode repetir?", "Não sei o que fazer"],
+        "responses": ["Desculpe, não consegui entender. Pode reformular a pergunta?"]
+      }
+
+    ]
+  }
+  

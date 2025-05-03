@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot TechStore</title>
+</head>
+<body>
+    <h2>Atendimento Virtual - TechStore</h2>
+    <div id="chat"></div>
+    <input type="text" id="mensagem" placeholder="Digite sua mensagem..." />
+    <button onclick="enviar()">Enviar</button>
+    <script>
+        function enviar() {
+            let mensagem = document.getElementById("mensagem").value;
+            fetch("/perguntar", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: "mensagem=" + encodeURIComponent(mensagem)
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("chat").innerHTML += "<p><b>Você:</b> " + mensagem + "</p>";
+                document.getElementById("chat").innerHTML += "<p><b>Chatbot:</b> " + data.resposta.replace(/\n/g, "<br>") + "</p>";
+            });
+        }
+    </script>    
+</body>
+</html>
