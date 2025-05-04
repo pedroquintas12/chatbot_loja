@@ -1,0 +1,416 @@
+/* Resetando margens e paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #007bff; /* Azul TechStore */
+    --primary-color-dark: #0056b3; /* Azul mais escuro */
+    --secondary-color: #28a745; /* Verde (exemplo para ações/sucesso) */
+    --background-color: #f0f2f5; /* Fundo geral claro */
+    --surface-color: #ffffff; /* Fundo de cards/containers */
+    --text-color: #333; /* Cor de texto principal */
+    --text-color-secondary: #555; /* Cor de texto secundário */
+
+    /* Cores padrão: Usuário (sent) azul, Bot (received) cinza */
+    --bubble-sent-bg: var(--primary-color); /* Usuário bubble é azul */
+    --bubble-sent-text: var(--surface-color); /* Texto usuário é branco */
+    --bubble-received-bg: #e4e6eb; /* Bot bubble é cinza claro */
+    --bubble-received-text: var(--text-color); /* Texto bot é escuro */
+
+    --spacing-xxs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+
+    --border-radius-small: 4px;
+    --border-radius-medium: 8px;
+    --border-radius-large: 18px; /* Para balões */
+    --border-radius-pill: 50px; /* Para botões e inputs */
+
+    --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 3px 8px rgba(0, 0, 0, 0.15);
+    --shadow-deep: 0 5px 15px rgba(0, 0, 0, 0.15);
+
+    --transition-duration: 0.2s;
+    --transition-timing-function: ease-in-out;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    height: 90vh;
+    margin: 5vh auto;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-deep);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+    color: var(--surface-color);
+    padding: var(--spacing-md) var(--spacing-lg);
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-light);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza apenas o título */
+    gap: var(--spacing-xs);
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+/* Removido: Estilo para o logo no cabeçalho */
+
+
+.chat-body {
+    flex-grow: 1;
+    padding: var(--spacing-md);
+    background-color: var(--surface-color);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    scroll-behavior: smooth;
+}
+
+/* Estilo base para todas as mensagens */
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs); /* Espaço entre avatar e bolha (será aplicado apenas ao bot) */
+    margin-bottom: var(--spacing-xs);
+    max-width: 85%;
+    animation: fadeInSlideUp var(--transition-duration) var(--transition-timing-function);
+}
+
+/* Animação de entrada para mensagens */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(var(--spacing-sm));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.message-avatar { /* Estilo para avatares (usado apenas para o bot agora) */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--surface-color);
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Balão de mensagem */
+.message-bubble {
+    max-width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-large);
+    line-height: 1.5;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-light);
+    position: relative;
+}
+
+/* Balão de mensagem do Usuário (Direita, Azul) */
+.message--sent {
+    align-self: flex-end; /* Alinha o container da mensagem (apenas a bolha agora) à direita */
+    flex-direction: row-reverse; /* Mantém a direção, mesmo sem avatar */
+    gap: 0; /* Garante que não haja gap extra sem o avatar */
+}
+
+.message--sent .message-bubble {
+    background-color: var(--bubble-sent-bg); /* Cor: Azul */
+    color: var(--bubble-sent-text); /* Cor texto: Branco */
+    border-bottom-right-radius: var(--spacing-xs);
+}
+
+/* Cauda do balão do usuário (Direita) */
+.message--sent .message-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -7px; /* Posicionamento: Direita */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: var(--spacing-xs) 0 var(--spacing-xs) var(--spacing-xs);
+    border-color: transparent transparent transparent var(--bubble-sent-bg); /* Cor da cauda: Azul */
+}
+
+
+/* Balão de mensagem do Bot (Esquerda, Cinza, com Avatar) */
+.message--received {
+    align-self: flex-start; /* Alinha o container da mensagem à esquerda */
+    flex-direction: row; /* Ordem: Avatar, Bolha */
+    /* Gap aqui mantém o espaço entre o avatar do bot e a bolha */
+}
+
+.message--received .message-bubble {
+    background-color: var(--bubble-received-bg); /* Cor: Cinza claro */
+    color: var(--bubble-received-text); /* Cor texto: Escuro */
+    border-bottom-left-radius: var(--spacing-xs);
+}
+
+/* Cauda do balão do bot (Esquerda) */
+.message--received .message-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -7px; /* Posicionamento: Esquerda */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+    border-color: transparent var(--bubble-received-bg) transparent transparent; /* Cor da cauda: Cinza */
+}
+
+
+/* Caixa de entrada e botão */
+.input-box {
+    display: flex;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--background-color);
+    border-top: 1px solid #dcdcdc;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.input-box input[type="text"] {
+    flex-grow: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid #ccd0d5;
+    border-radius: var(--border-radius-pill);
+    font-size: 1rem;
+    background-color: var(--surface-color);
+    transition: border-color var(--transition-duration) var(--transition-timing-function),
+                box-shadow var(--transition-duration) var(--transition-timing-function);
+}
+
+.input-box input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.input-box button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-color);
+    color: var(--surface-color);
+    border: none;
+    border-radius: var(--border-radius-pill);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color var(--transition-duration) var(--transition-timing-function),
+                transform 0.1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.input-box button:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.input-box button:active {
+    transform: scale(0.95);
+}
+
+/* Estilo para o ícone no botão */
+.input-box button i {
+    font-size: 1.1em;
+}
+
+
+/* --- Estados do Chat (Vazio, Digitando, etc.) --- */
+.chat-info-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-color-secondary);
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+.chat-info-state .chat-info-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    color: #ccc;
+}
+
+.chat-info-state p {
+    margin: 0;
+    max-width: 80%;
+}
+
+/* centralizar sem texto */
+.chat-info-state:only-child:empty {
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-xl) 0;
+}
+
+
+/* indicador de digitalização */
+.typing-indicator {
+   flex-direction: row;
+   gap: var(--spacing-xxs);
+   padding: var(--spacing-sm);
+   align-self: flex-start; /* alinhamento a esquerda */
+   color: var(--text-color-secondary);
+   font-size: 0.9rem;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-color-secondary);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: pulse 0.6s infinite alternate;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: 0s; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* --- barra de rolagem --- */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: var(--border-radius-pill);
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+/* Para Firefox */
+.chat-box {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc var(--background-color);
+}
+
+/* Responsividade básica */
+@media (max-width: 600px) {
+    .chat-container {
+        margin: 0;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .header {
+         border-radius: 0;
+         font-size: 1rem;
+    }
+
+     .header h2 {
+        font-size: 1.1em;
+     }
+
+    .chat-body {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+
+    .message {
+        gap: var(--spacing-xs);
+        margin-bottom: var(--spacing-xs);
+        max-width: 90%;
+    }
+
+    .message-avatar {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+
+    .message-bubble {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+
+    .input-box {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        gap: var(--spacing-xs);
+    }
+
+    .input-box input[type="text"] {
+        padding: var(--spacing-xs) var(--spacing-md);
+        font-size: 0.9rem;
+    }
+
+    .input-box button {
+         padding: var(--spacing-xs) var(--spacing-md);
+         font-size: 0.9rem;
+    }
+
+    .chat-info-state {
+        padding: var(--spacing-md);
+        font-size: 1rem;
+    }
+
+     .chat-info-state .chat-info-icon {
+        font-size: 2.5rem;
+     }
+}

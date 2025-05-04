@@ -2,27 +2,37 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot TechStore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h2>Atendimento Virtual - TechStore</h2>
-    <div id="chat"></div>
-    <input type="text" id="mensagem" placeholder="Digite sua mensagem..." />
-    <button onclick="enviar()">Enviar</button>
-    <script>
-        function enviar() {
-            let mensagem = document.getElementById("mensagem").value;
-            fetch("/perguntar", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: "mensagem=" + encodeURIComponent(mensagem)
-            })
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById("chat").innerHTML += "<p><b>Você:</b> " + mensagem + "</p>";
-                document.getElementById("chat").innerHTML += "<p><b>Chatbot:</b> " + data.resposta.replace(/\n/g, "<br>") + "</p>";
-            });
-        }
-    </script>    
+    <div class="chat-container">
+        <header class="header">
+            <h2>TechStore - Atendimento Virtual</h2>
+        </header>
+        <main class="chat-body">
+            <div id="chat" class="chat-box" role="log" aria-live="polite">
+                 <div id="empty-state" class="chat-info-state">
+                    <i class="fas fa-comment-dots chat-info-icon"></i>
+                 </div>
+                </div>
+            <div id="typing-indicator" class="chat-info-state typing-indicator" style="display: none;">
+                <span></span><span></span><span></span>
+                <p>Digitando...</p>
+            </div>
+        </main>
+        <footer class="input-box">
+            <input type="text" id="mensagem" placeholder="Digite sua mensagem..." onkeydown="checkEnter(event)" aria-label="Digite sua mensagem" />
+            <button onclick="enviar()" aria-label="Enviar mensagem">
+                 <i class="fas fa-paper-plane"></i>
+            </button>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

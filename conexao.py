@@ -5,5 +5,13 @@ def conectar():
         host="localhost",
         user="root",
         password="123456",
-        database="loja"
+        database="loja_tecnologia"
     )
+
+if __name__ == "__main__":
+    try:
+        conn = conectar()
+        print("Conexão bem-sucedida!")
+        conn.close()
+    except Exception as e:
+        print("Erro na conexão:", e)

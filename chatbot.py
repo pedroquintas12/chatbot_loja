@@ -6,14 +6,14 @@ import json
 import pickle
 from utils import preprocessar
 
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
-nltk.download('punkt')
-
-# Carrega intents
 with open('intents.json', encoding='utf-8') as file:
     data = json.load(file)
 
-# Carrega modelo IA e vetor
 with open('chat_model.pkl', 'rb') as f:
     modelo_ia = pickle.load(f)
 
@@ -23,33 +23,28 @@ with open('vectorizer.pkl', 'rb') as f:
 def responder(mensagem):
     tokens = word_tokenize(mensagem.lower())
 
-    # Regras fixas (mantidas)
     if any(p in mensagem.lower() for p in ["me fale sobre", "me mostra o", "detalhes do", "informações do", "tem o"]):
         nome_produto = extrair_nome_produto(mensagem)
         return recomendar_produto(nome_produto)
 
-    # Detecção de intenção com IA
     try:
         X = vetor_ia.transform([mensagem])
         tag_prevista = modelo_ia.predict(X)[0]
 
-        # Ações com base na intenção
         if tag_prevista == "listar_produtos":
             return listar_produtos()
         elif tag_prevista == "recomendar_produto":
             nome_produto = extrair_nome_produto(mensagem)
             return recomendar_produto(nome_produto)
 
-        # Outras respostas do intents.json
         for intent in data['intents']:
             if intent['tag'] == tag_prevista:
                 return random.choice(intent['responses'])
 
-    except:
-        pass
+    except Exception as e:
+        print("Erro ao interpretar a mensagem:", e)
 
     return "Desculpe, não entendi. Pode repetir ou pedir para falar com um atendente?"
-
 
 def listar_produtos():
     produtos = buscar_produto("")
