@@ -1,12 +1,15 @@
 import mysql.connector
 
 def conectar():
-    return mysql.connector.connect(
+    conn = mysql.connector.connect(
         host="localhost",
         user="root",
         password="123456",
-        database="loja_tecnologia"
+        database="loja_tecnologia",
+        charset="latin1"  
+
     )
+    return conn
 
 if __name__ == "__main__":
     try:

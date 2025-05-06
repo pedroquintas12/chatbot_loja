@@ -5,7 +5,7 @@ import random
 import json
 import pickle
 from utils import preprocessar
-
+import re
 try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
@@ -23,14 +23,15 @@ with open('vectorizer.pkl', 'rb') as f:
 def responder(mensagem):
     tokens = word_tokenize(mensagem.lower())
 
-    if any(p in mensagem.lower() for p in ["me fale sobre", "me mostra o", "detalhes do", "informações do", "tem o"]):
-        nome_produto = extrair_nome_produto(mensagem)
-        return recomendar_produto(nome_produto)
 
     try:
         X = vetor_ia.transform([mensagem])
         tag_prevista = modelo_ia.predict(X)[0]
 
+        if tag_prevista == "produto_info":
+            nome_produto = extrair_nome_produto(mensagem)
+            return recomendar_produto(nome_produto)
+        
         if tag_prevista == "listar_produtos":
             return listar_produtos()
         elif tag_prevista == "recomendar_produto":
@@ -51,8 +52,8 @@ def listar_produtos():
     if produtos:
         resposta = "Temos os seguintes produtos:\n"
         for p in produtos:
-            resposta += f"- {p['nome']} (R$ {p['preco']:.2f})\n"
-        resposta += "Para mais informações, digite 'detalhes do' + o nome do produto."
+            resposta += f"- <b>{p['id']}</b> {p['nome']} (R$ {p['preco']:.2f})<br>"
+        resposta += "Para mais informações, digite o numero do produto."
         return resposta
     return "Nenhum produto cadastrado no momento."
 
@@ -66,9 +67,15 @@ def recomendar_produto(nome):
         return f"{p['nome']} - R$ {p['preco']:.2f}\nDescrição: {p['descricao']}"
     return "Não encontrei esse produto. Tente um nome diferente ou mais específico."
 
+
 def extrair_nome_produto(mensagem):
     frases_remover = ["me fale sobre", "tem o", "me mostra o", "informações do", "detalhes do"]
     nome = mensagem.lower()
     for frase in frases_remover:
         nome = nome.replace(frase, "")
+    
+    # Remove tudo antes do primeiro número, incluindo espaços
+    nome = re.sub(r'^.*?(\d+)', r'\1', nome)
+    
     return nome.strip()
+
